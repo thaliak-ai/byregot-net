@@ -22,6 +22,8 @@ jobs:
           mkdir -p $HOME/.xlcore/dalamud/Hooks/dev
           curl -fsSL "https://goatcorp.github.io/dalamud-distrib/stg/latest.zip" -o /tmp/dalamud.zip
           unzip -q /tmp/dalamud.zip -d $HOME/.xlcore/dalamud/Hooks/dev
+          echo "=== Extracted contents ==="
+          ls $HOME/.xlcore/dalamud/Hooks/dev/
 
       - name: Build
         run: dotnet build ByregotNet/ByregotNet.csproj -c Release
