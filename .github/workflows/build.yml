@@ -4,10 +4,14 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -22,8 +26,6 @@ jobs:
           mkdir -p $HOME/.xlcore/dalamud/Hooks/dev
           curl -fsSL "https://goatcorp.github.io/dalamud-distrib/stg/latest.zip" -o /tmp/dalamud.zip
           unzip -q /tmp/dalamud.zip -d $HOME/.xlcore/dalamud/Hooks/dev
-          echo "=== Extracted contents ==="
-          ls $HOME/.xlcore/dalamud/Hooks/dev/
 
       - name: Build
         run: dotnet build ByregotNet/ByregotNet.csproj -c Release
@@ -31,7 +33,13 @@ jobs:
       - name: Package
         run: |
           cd ByregotNet/bin/Release
-          zip -r ../../../byregot-net.zip . --exclude '*.pdb'
+          zip byregot-net.zip \
+            ByregotNet.dll \
+            ByregotNet.json \
+            Microsoft.ML.OnnxRuntime.dll \
+            System.Numerics.Tensors.dll
+          zip -r byregot-net.zip runtimes/win-x64/
+          mv byregot-net.zip ../../../
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
