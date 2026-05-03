@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DALAMUD_HOME: /tmp/dalamud
 
     steps:
       - uses: actions/checkout@v4
@@ -17,8 +19,14 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Download Dalamud
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://goatcorp.github.io/dalamud-distrib/stg/latest.zip" -o /tmp/dalamud.zip
+          unzip -q /tmp/dalamud.zip -d "$DALAMUD_HOME"
+
       - name: Build
-        run: dotnet build ByregotNet/ByregotNet.csproj -c Release
+        run: dotnet build ByregotNet/ByregotNet.csproj -c Release -p:DALAMUD_HOME=$DALAMUD_HOME
 
       - name: Package
         run: |
