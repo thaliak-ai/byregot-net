@@ -4,7 +4,7 @@
   "Punchline": "RL agent solver for Artisan — trained via self-play, runs locally.",
   "Description": "Registers an embedded RL agent as a named solver in Artisan. Selects crafting actions step-by-step from live game state using a MaskablePPO model trained via self-play.",
   "InternalName": "ByregotNet",
-  "AssemblyVersion": "1.16.2.0",
+  "AssemblyVersion": "1.0.0.0",
   "RepoUrl": "https://github.com/thaliak-ai/byregot-net",
   "ApplicableVersion": "any",
   "Tags": ["crafting", "rl", "solver", "artisan"],
